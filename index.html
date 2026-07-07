@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>bRiji — We build bridges between brands &amp; people</title>
+<meta name="description" content="bRiji is a creative studio that bridges bold ideas and real audiences. Layered design, strategic thinking, playful execution.">
+
+<!-- DM Sans (body / subheads) + Baloo 2 (fallback for Infinity headers) -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,700&family=Baloo+2:wght@600;700;800&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   bRiji — Landing Page
+   Colours  : Primary #000000 / #19232B · Secondary #FFFFFF · Accent #94F363
+   Fonts    : Infinity (headers) · DM Sans (body & subheads)
+   ============================================================ */
+
+/* If you have the Infinity font files, drop them into assets/fonts/
+   and they will be picked up automatically. Until then, headers
+   fall back to Baloo 2 (a similar rounded display face). */
+@font-face {
+  font-family: 'Infinity';
+  src: url('assets/fonts/Infinity.woff2') format('woff2'),
+       url('assets/fonts/Infinity.otf') format('opentype'),
+       url('assets/fonts/Infinity.ttf') format('truetype');
+  font-weight: 400 800;
+  font-display: swap;
+}
+
+:root {
+  --black:  #000000;
+  --ink:    #19232B;
+  --white:  #FFFFFF;
+  --accent: #94F363;
+  --font-head: 'Infinity', 'Baloo 2', 'DM Sans', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --pad: clamp(1.25rem, 5vw, 5rem);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--black);
+  color: var(--white);
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+h1, h2, h3 { font-family: var(--font-head); line-height: 1.05; font-weight: 700; }
+
+img { max-width: 100%; display: block; }
+a { color: inherit; text-decoration: none; }
+
+::selection { background: var(--accent); color: var(--black); }
+
+/* ------------------------------------------------ header --- */
+.site-header {
+  position: fixed;
+  inset: 0 0 auto 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem var(--pad);
+  transition: background .35s ease, box-shadow .35s ease;
+}
+.site-header.scrolled {
+  background: rgba(0,0,0,.82);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 1px 0 rgba(255,255,255,.08);
+}
+.brand img { height: 40px; width: auto; }
+
+.nav { display: flex; align-items: center; gap: 2.5rem; }
+.nav a {
+  font-size: .8rem;
+  font-weight: 500;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  position: relative;
+  padding: .35rem 0;
+}
+.nav a::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 0;
+  width: 100%; height: 2px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform .3s ease;
+}
+.nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav a.nav-cta {
+  border: 2px solid var(--accent);
+  border-radius: 999px;
+  padding: .55rem 1.4rem;
+  color: var(--accent);
+  transition: background .25s ease, color .25s ease;
+}
+.nav a.nav-cta:hover { background: var(--accent); color: var(--black); }
+.nav a.nav-cta::after { display: none; }
+
+/* hamburger */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: 0;
+  cursor: pointer;
+  z-index: 110;
+  width: 44px; height: 44px;
+}
+.nav-toggle span {
+  display: block;
+  width: 26px; height: 2px;
+  margin: 6px auto;
+  background: var(--white);
+  transition: transform .3s ease, opacity .3s ease;
+}
+.nav-toggle[aria-expanded="true"] span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+/* -------------------------------------------------- hero --- */
+.hero {
+  position: relative;
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  background:
+    radial-gradient(120% 90% at 80% 10%, #26333d 0%, var(--ink) 45%, var(--black) 100%);
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* layered backdrop shapes — structural depth */
+.hero-shape {
+  position: absolute;
+  z-index: -1;
+  border-radius: 50%;
+}
+.hero-shape--ring {
+  width: min(72vw, 780px);
+  aspect-ratio: 1;
+  border: 1.5px solid rgba(255,255,255,.14);
+  top: 50%; left: 50%;
+  translate: -50% -50%;
+}
+.hero-shape--glow {
+  width: min(50vw, 520px);
+  aspect-ratio: 1;
+  background: radial-gradient(circle, rgba(148,243,99,.16) 0%, transparent 65%);
+  top: 12%; right: -8%;
+}
+.hero-shape--grid {
+  inset: 0;
+  border-radius: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size: 72px 72px;
+  mask-image: radial-gradient(75% 75% at 50% 45%, #000 30%, transparent 100%);
+}
+
+.hero-inner {
+  text-align: center;
+  padding: 7rem var(--pad) 5rem;
+  max-width: 1000px;
+  position: relative;
+}
+
+.hero-kicker {
+  display: inline-block;
+  font-size: .78rem;
+  font-weight: 700;
+  letter-spacing: .32em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+}
+
+.hero h1 {
+  font-size: clamp(2.9rem, 9vw, 6.8rem);
+  text-transform: uppercase;
+  letter-spacing: .01em;
+}
+.hero h1 .outline {
+  color: transparent;
+  -webkit-text-stroke: 2px var(--white);
+}
+.hero h1 .accent { color: var(--accent); }
+
+.hero-sub {
+  margin: 1.8rem auto 0;
+  max-width: 34rem;
+  font-size: clamp(1rem, 1.5vw, 1.2rem);
+  font-weight: 300;
+  color: rgba(255,255,255,.75);
+}
+
+.hero-actions { margin-top: 2.6rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .6rem;
+  font-family: var(--font-body);
+  font-size: .85rem;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  padding: 1rem 2.2rem;
+  border-radius: 999px;
+  border: 2px solid var(--accent);
+  cursor: pointer;
+  transition: transform .2s ease, background .25s ease, color .25s ease, box-shadow .25s ease;
+}
+.btn-solid { background: var(--accent); color: var(--black); }
+.btn-solid:hover { transform: translateY(-3px); box-shadow: 0 14px 34px rgba(148,243,99,.35); }
+.btn-ghost { background: transparent; color: var(--white); border-color: rgba(255,255,255,.35); }
+.btn-ghost:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-3px); }
+
+/* rotating dynamic circle — playful anchor of the composition */
+.orbit {
+  position: absolute;
+  right: clamp(.5rem, 6vw, 6rem);
+  bottom: clamp(4.5rem, 10vh, 7rem);
+  width: clamp(120px, 16vw, 190px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  z-index: 5;
+}
+.orbit svg { position: absolute; inset: 0; animation: spin 18s linear infinite; }
+.orbit svg text {
+  font-family: var(--font-body);
+  font-size: 10.2px;
+  font-weight: 700;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  fill: var(--white);
+}
+.orbit .orbit-core {
+  width: 42%;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: var(--accent);
+  display: grid;
+  place-items: center;
+  transition: transform .3s ease;
+}
+.orbit:hover .orbit-core { transform: scale(1.12); }
+.orbit .orbit-core img { width: 46%; height: auto; }
+@keyframes spin { to { rotate: 360deg; } }
+@media (prefers-reduced-motion: reduce) {
+  .orbit svg { animation: none; }
+  html { scroll-behavior: auto; }
+}
+
+/* scroll cue */
+.scroll-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 2rem;
+  translate: -50% 0;
+  font-size: .68rem;
+  letter-spacing: .34em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.55);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .6rem;
+}
+.scroll-cue::after {
+  content: '';
+  width: 1px; height: 44px;
+  background: linear-gradient(var(--accent), transparent);
+  animation: drip 2s ease-in-out infinite;
+}
+@keyframes drip { 0% { transform: scaleY(0); transform-origin: top; } 55% { transform: scaleY(1); transform-origin: top; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+
+/* ------------------------------------------------- about --- */
+.about {
+  position: relative;
+  background: var(--ink);
+  padding: clamp(5rem, 12vw, 9rem) var(--pad);
+  overflow: hidden;
+}
+/* overlapping seam: hero bleeds into about */
+.about::before {
+  content: 'bRiji';
+  position: absolute;
+  top: -0.18em;
+  right: -0.06em;
+  font-family: var(--font-head);
+  font-size: clamp(8rem, 24vw, 20rem);
+  font-weight: 800;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,.07);
+  pointer-events: none;
+  line-height: 1;
+}
+
+.about-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr);
+  gap: clamp(2rem, 6vw, 5rem);
+  max-width: 1200px;
+  margin: 0 auto;
+  align-items: center;
+}
+
+.section-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: .7rem;
+  font-size: .75rem;
+  font-weight: 700;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 1.4rem;
+}
+.section-tag::before { content: ''; width: 34px; height: 2px; background: var(--accent); }
+
+.about h2 {
+  font-size: clamp(2.1rem, 4.6vw, 3.6rem);
+  margin-bottom: 1.4rem;
+}
+.about h2 em { font-style: normal; color: var(--accent); }
+.about p { color: rgba(255,255,255,.72); max-width: 34rem; font-weight: 300; }
+.about p + p { margin-top: 1rem; }
+
+/* overlapping card stack — structural depth */
+.stack { position: relative; min-height: 420px; }
+.card {
+  position: absolute;
+  border-radius: 22px;
+  padding: 1.9rem;
+  width: min(300px, 78%);
+  box-shadow: 0 24px 60px rgba(0,0,0,.45);
+  transition: transform .35s ease;
+}
+.card:hover { transform: translateY(-8px) rotate(0deg) !important; }
+.card h3 { font-size: 1.25rem; margin-bottom: .5rem; }
+.card p { font-size: .92rem; line-height: 1.55; }
+.card .num {
+  font-family: var(--font-head);
+  font-size: .85rem;
+  font-weight: 800;
+  letter-spacing: .1em;
+  display: block;
+  margin-bottom: 1rem;
+  opacity: .55;
+}
+.card--1 { background: var(--black); top: 0; left: 0; transform: rotate(-4deg); z-index: 1; }
+.card--1 p { color: rgba(255,255,255,.7); }
+.card--2 { background: var(--accent); color: var(--black); top: 26%; left: 30%; transform: rotate(3deg); z-index: 2; }
+.card--2 p { color: rgba(0,0,0,.75); }
+.card--3 { background: var(--white); color: var(--black); top: 55%; left: 8%; transform: rotate(-2deg); z-index: 3; }
+.card--3 p { color: rgba(0,0,0,.68); }
+
+/* ----------------------------------------------- contact --- */
+/* Strategic colour contrast: the page flips to the accent colour
+   so every eye lands on the form. */
+.contact {
+  position: relative;
+  background: var(--accent);
+  color: var(--black);
+  padding: clamp(5rem, 12vw, 9rem) var(--pad) clamp(6rem, 12vw, 9rem);
+  overflow: hidden;
+}
+/* overlap: dark panel juts down into the green field */
+.contact::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%;
+  height: 90px;
+  background: var(--ink);
+  clip-path: polygon(0 0, 100% 0, 100% 32%, 0 100%);
+}
+.contact-shape {
+  position: absolute;
+  width: min(46vw, 500px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  border: 2px solid rgba(0,0,0,.14);
+  right: -12%;
+  bottom: -22%;
+  pointer-events: none;
+}
+.contact-shape--2 {
+  width: min(30vw, 300px);
+  border: 0;
+  background: rgba(0,0,0,.06);
+  left: -8%;
+  top: 18%;
+  right: auto;
+  bottom: auto;
+}
+
+.contact-grid {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr);
+  gap: clamp(2.5rem, 6vw, 5rem);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.contact .section-tag { color: var(--black); }
+.contact .section-tag::before { background: var(--black); }
+.contact h2 { font-size: clamp(2.2rem, 5vw, 4rem); margin-bottom: 1.2rem; }
+.contact-lead { font-weight: 400; color: rgba(0,0,0,.72); max-width: 26rem; }
+.contact-meta { margin-top: 2.4rem; display: grid; gap: .5rem; font-weight: 500; }
+.contact-meta a { text-decoration: underline; text-underline-offset: 4px; text-decoration-thickness: 2px; }
+.contact-meta a:hover { opacity: .65; }
+
+/* the form — dark island on green, maximum pull */
+.form-card {
+  background: var(--ink);
+  color: var(--white);
+  border-radius: 26px;
+  padding: clamp(1.6rem, 3.5vw, 2.8rem);
+  box-shadow: 0 30px 80px rgba(0,0,0,.35);
+  transform: rotate(1.2deg);
+}
+.form-card form { display: grid; gap: 1.1rem; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.1rem; }
+.field { display: grid; gap: .4rem; }
+.field label {
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,.6);
+}
+.field input, .field textarea {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  color: var(--white);
+  background: rgba(255,255,255,.06);
+  border: 1.5px solid rgba(255,255,255,.14);
+  border-radius: 12px;
+  padding: .9rem 1.05rem;
+  transition: border-color .25s ease, background .25s ease;
+  resize: vertical;
+}
+.field input:focus, .field textarea:focus {
+  outline: none;
+  border-color: var(--accent);
+  background: rgba(148,243,99,.07);
+}
+.form-card .btn { justify-content: center; width: 100%; margin-top: .4rem; }
+.form-note { font-size: .8rem; color: rgba(255,255,255,.45); text-align: center; }
+
+/* ------------------------------------------------ footer --- */
+.site-footer {
+  background: var(--black);
+  padding: 3.2rem var(--pad);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+.site-footer img { height: 30px; width: auto; }
+.site-footer p { font-size: .82rem; color: rgba(255,255,255,.45); }
+.footer-links { display: flex; gap: 1.8rem; font-size: .8rem; letter-spacing: .16em; text-transform: uppercase; }
+.footer-links a:hover { color: var(--accent); }
+
+/* --------------------------------------- scroll reveals ---- */
+.reveal { opacity: 0; transform: translateY(34px); transition: opacity .7s ease, transform .7s ease; }
+.reveal.in { opacity: 1; transform: none; }
+
+/* ------------------------------------------------ mobile --- */
+@media (max-width: 860px) {
+  .nav-toggle { display: block; }
+  .nav {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.94);
+    backdrop-filter: blur(10px);
+    flex-direction: column;
+    justify-content: center;
+    gap: 2.4rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+  }
+  .nav.open { opacity: 1; pointer-events: auto; }
+  .nav a { font-size: 1.05rem; }
+
+  .about-grid, .contact-grid { grid-template-columns: 1fr; }
+
+  .stack { min-height: 460px; max-width: 420px; margin-inline: auto; }
+  .card { width: min(280px, 84%); }
+
+  .orbit { right: 1rem; bottom: 5.4rem; width: 108px; }
+  .orbit svg text { font-size: 11px; letter-spacing: .28em; }
+  .scroll-cue { left: var(--pad); translate: 0 0; align-items: flex-start; }
+
+  .form-row { grid-template-columns: 1fr; }
+  .form-card { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ======================================== header ======= -->
+<header class="site-header" id="top">
+  <a class="brand" href="#top" aria-label="bRiji home">
+    <img src="assets/logo-white.png" alt="bRiji logo">
+  </a>
+
+  <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="nav">
+    <span></span><span></span><span></span>
+  </button>
+
+  <nav class="nav" id="nav" aria-label="Main navigation">
+    <a href="#about">About</a>
+    <a href="#contact" class="nav-cta">Contact Us</a>
+  </nav>
+</header>
+
+<!-- ========================================== hero ======= -->
+<section class="hero">
+  <div class="hero-shape hero-shape--grid" aria-hidden="true"></div>
+  <div class="hero-shape hero-shape--ring" aria-hidden="true"></div>
+  <div class="hero-shape hero-shape--glow" aria-hidden="true"></div>
+
+  <div class="hero-inner">
+    <span class="hero-kicker">Creative Studio</span>
+    <h1>
+      Creating &amp; <span class="outline">connecting</span><br>
+      <span class="accent">essential</span> stories.
+    </h1>
+    <p class="hero-sub">
+      bRiji turns bold thinking into experiences your audience can feel —
+      layered, playful and impossible to scroll past.
+    </p>
+    <div class="hero-actions">
+      <a class="btn btn-solid" href="#contact">Start a project</a>
+      <a class="btn btn-ghost" href="#about">Who we are</a>
+    </div>
+  </div>
+
+  <!-- rotating dynamic circle -->
+  <a class="orbit" href="#about" aria-label="Scroll to about section">
+    <svg viewBox="0 0 100 100" aria-hidden="true">
+      <defs>
+        <path id="orbit-path" d="M 50,50 m -38,0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/>
+      </defs>
+      <text><textPath href="#orbit-path">bRiji · create · connect ·</textPath></text>
+    </svg>
+    <span class="orbit-core">
+      <img src="assets/logomark-black.png" alt="">
+    </span>
+  </a>
+
+  <div class="scroll-cue" aria-hidden="true">Scroll</div>
+</section>
+
+<!-- ========================================= about ======= -->
+<section class="about" id="about">
+  <div class="about-grid">
+    <div class="reveal">
+      <span class="section-tag">About</span>
+      <h2>Small studio.<br><em>Big crossings.</em></h2>
+      <p>
+        bRiji is a creative studio built on one belief: the shortest distance
+        between a brand and its people is a story worth crossing for. We design
+        identities, campaigns and digital experiences that carry audiences from
+        “never heard of you” to “can’t stop talking about you.”
+      </p>
+      <p>
+        We keep the team small, the thinking sharp and the process playful —
+        because work made with joy is work that gets remembered.
+      </p>
+    </div>
+
+    <div class="stack reveal" aria-label="What we do">
+      <article class="card card--1">
+        <span class="num">01</span>
+        <h3>Brand &amp; Identity</h3>
+        <p>Names, logos and visual systems with a pulse — built to flex everywhere your brand lives.</p>
+      </article>
+      <article class="card card--2">
+        <span class="num">02</span>
+        <h3>Digital Experiences</h3>
+        <p>Websites and products that feel less like pages and more like places people want to stay.</p>
+      </article>
+      <article class="card card--3">
+        <span class="num">03</span>
+        <h3>Campaigns &amp; Content</h3>
+        <p>Ideas engineered to travel — from a single post to a full-blown launch moment.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================= contact ======= -->
+<section class="contact" id="contact">
+  <div class="contact-shape" aria-hidden="true"></div>
+  <div class="contact-shape contact-shape--2" aria-hidden="true"></div>
+
+  <div class="contact-grid">
+    <div class="reveal">
+      <span class="section-tag">Contact Us</span>
+      <h2>Let’s build your bridge.</h2>
+      <p class="contact-lead">
+        Tell us where you are and where you want to be —
+        we’ll design the crossing. Most enquiries hear back within one working day.
+      </p>
+      <div class="contact-meta">
+        <a href="mailto:briji.art@gmail.com">briji.art@gmail.com</a>
+        <span>Mon – Fri · 9:00 – 17:00</span>
+      </div>
+    </div>
+
+    <div class="form-card reveal">
+      <form action="mailto:briji.art@gmail.com" method="post" enctype="text/plain">
+        <div class="form-row">
+          <div class="field">
+            <label for="f-name">Name</label>
+            <input id="f-name" name="name" type="text" placeholder="Your name" required>
+          </div>
+          <div class="field">
+            <label for="f-email">Email</label>
+            <input id="f-email" name="email" type="email" placeholder="you@company.com" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="f-project">Project</label>
+          <input id="f-project" name="project" type="text" placeholder="Brand, website, campaign…">
+        </div>
+        <div class="field">
+          <label for="f-message">Message</label>
+          <textarea id="f-message" name="message" rows="4" placeholder="Tell us about it" required></textarea>
+        </div>
+        <button class="btn btn-solid" type="submit">Send message</button>
+        <p class="form-note">No newsletters. No spam. Just a reply from a human.</p>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================== footer ======= -->
+<footer class="site-footer">
+  <img src="assets/logo-white.png" alt="bRiji">
+  <div class="footer-links">
+    <a href="#about">About</a>
+    <a href="#contact">Contact Us</a>
+  </div>
+  <p>© <span id="year">2026</span> bRiji. All rights reserved.</p>
+</footer>
+
+<script>
+// header background on scroll
+const header = document.querySelector('.site-header');
+addEventListener('scroll', () => {
+  header.classList.toggle('scrolled', scrollY > 40);
+}, { passive: true });
+
+// mobile menu
+const toggle = document.querySelector('.nav-toggle');
+const nav = document.getElementById('nav');
+toggle.addEventListener('click', () => {
+  const open = nav.classList.toggle('open');
+  toggle.setAttribute('aria-expanded', open);
+});
+nav.querySelectorAll('a').forEach(a =>
+  a.addEventListener('click', () => {
+    nav.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  })
+);
+
+// scroll reveals
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } });
+}, { threshold: 0.15 });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// current year
+document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
