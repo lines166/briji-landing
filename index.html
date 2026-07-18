@@ -626,7 +626,11 @@ a { color: inherit; text-decoration: none; }
     </div>
 
     <div class="form-card reveal">
-      <form action="mailto:briji.art@gmail.com" method="post" enctype="text/plain">
+      <form id="contact-form" action="https://formsubmit.co/briji.art@gmail.com" method="POST">
+        <input type="hidden" name="_subject" value="New enquiry from briji.art">
+        <input type="hidden" name="_template" value="table">
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://www.briji.art/#contact">
         <div class="form-row">
           <div class="field">
             <label for="f-name">Name</label>
@@ -646,7 +650,7 @@ a { color: inherit; text-decoration: none; }
           <textarea id="f-message" name="message" rows="4" placeholder="Tell us about it" required></textarea>
         </div>
         <button class="btn btn-solid" type="submit">Send message</button>
-        <p class="form-note">No newsletters. No spam. Just a reply from a human.</p>
+        <p class="form-note" id="form-note">No newsletters. No spam. Just a reply from a human.</p>
       </form>
     </div>
   </div>
@@ -691,6 +695,37 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
 // current year
 document.getElementById('year').textContent = new Date().getFullYear();
+
+// contact form — submits via FormSubmit.co without leaving the page
+const form = document.getElementById('contact-form');
+const note = document.getElementById('form-note');
+const sendBtn = form.querySelector('button[type="submit"]');
+form.addEventListener('submit', async e => {
+  e.preventDefault();
+  sendBtn.disabled = true;
+  sendBtn.textContent = 'Sending…';
+  try {
+    const data = Object.fromEntries(new FormData(form).entries());
+    const res = await fetch('https://formsubmit.co/ajax/briji.art@gmail.com', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    });
+    const json = await res.json();
+    if (res.ok && (json.success === 'true' || json.success === true)) {
+      form.reset();
+      sendBtn.textContent = 'Sent ✓';
+      note.textContent = 'Thanks — your message is on its way. We usually reply within one working day.';
+      setTimeout(() => { sendBtn.disabled = false; sendBtn.textContent = 'Send message'; }, 4000);
+    } else {
+      throw new Error(json.message || 'Send failed');
+    }
+  } catch (err) {
+    sendBtn.disabled = false;
+    sendBtn.textContent = 'Send message';
+    note.innerHTML = 'Something went wrong — please email us directly at <a href="mailto:briji.art@gmail.com" style="color:var(--accent)">briji.art@gmail.com</a>.';
+  }
+});
 </script>
 
 </body>
